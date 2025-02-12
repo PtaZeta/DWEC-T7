@@ -1,19 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A2U7</title>
+    <title>Sugerencias de Ciudades</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h2 {
+            color: #333;
+        }
+        label {
+            font-weight: bold;
+        }
+        input[type="text"] {
+            padding: 5px;
+            width: 200px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #sugerencias {
+            margin-top: 10px;
+            color: blue;
+            font-weight: bold;
+        }
+        .container {
+            border: 1px solid #999;
+            padding: 15px;
+            width: 400px;
+        }
+    </style>
 </head>
 <body>
-    <h3>Escribe el nombre de alguna ciudad dónde quieres ir:</h3>
-
-    <form method="get">
-        <label for="ciudad">Ciudad: </label>
-        <Input type="text" id="ciudad" name="ciudad"></Input>
-
-        <p id="sugerencias">Sugerencias: </p>
-    </form>
+    <div class="container">
+        <h2>Escribe el nombre de alguna ciudad dónde quieres ir:</h2>
+        <label for="ciudad">Ciudad:</label>
+        <input type="text" id="ciudad" onkeyup="obtenerSugerencias()">
+        <div id="sugerencias">Sugerencias: </div>
+    </div>
 
     <script>
         function obtenerSugerencias() {
@@ -22,14 +47,12 @@
                 document.getElementById('sugerencias').innerHTML = "Sugerencias: ";
                 return;
             }
-            fetch('ciudadessugerencias.php')
-                .then(response => response.json())
+
+            fetch(`ciudadessugerencias.php?q=${input}`)
+                .then(response => response.text())
                 .then(data => {
-                    const resultados = data.filter(ciudad =>
-                        ciudad.toLowerCase().startsWith(input.toLowerCase())
-                    );
                     document.getElementById('sugerencias').innerHTML = 
-                        "Sugerencias: " + resultados.join(', ');
+                        "Sugerencias: " + data;
                 })
                 .catch(error => console.error('Error al obtener sugerencias:', error));
         }
