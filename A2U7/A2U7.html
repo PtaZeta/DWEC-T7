@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A2U7</title>
+</head>
+<body>
+    <h3>Escribe el nombre de alguna ciudad dónde quieres ir:</h3>
+
+    <form method="get">
+        <label for="ciudad">Ciudad: </label>
+        <Input type="text" id="ciudad" name="ciudad"></Input>
+
+        <p id="sugerencias">Sugerencias: </p>
+    </form>
+
+    <script>
+        function obtenerSugerencias() {
+            const input = document.getElementById('ciudad').value;
+            if (input.length === 0) {
+                document.getElementById('sugerencias').innerHTML = "Sugerencias: ";
+                return;
+            }
+            fetch('ciudadessugerencias.php')
+                .then(response => response.json())
+                .then(data => {
+                    const resultados = data.filter(ciudad =>
+                        ciudad.toLowerCase().startsWith(input.toLowerCase())
+                    );
+                    document.getElementById('sugerencias').innerHTML = 
+                        "Sugerencias: " + resultados.join(', ');
+                })
+                .catch(error => console.error('Error al obtener sugerencias:', error));
+        }
+    </script>
+</body>
+</html>
