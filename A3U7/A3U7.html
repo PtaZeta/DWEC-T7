@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>A3U7</title>
+</head>
+<body>
+    <h2>¿Qué equipo crees que va a ganar la liga este año?</h2>
+    <label class="opcion"> Real Madrid </label>
+    <input type="radio" name="equipo" onclick="votar(0)"> 
+    <br>
+    <label class="opcion"> Barcelona </label>
+    <input type="radio" name="equipo" onclick="votar(1)"> 
+    <br>
+    <label class="opcion"> Atlético de Madrid </label>
+    <input type="radio" name="equipo" onclick="votar(2)"> 
+    <br>
+    <label class="opcion"> Sevilla </label>
+    <input type="radio" name="equipo" onclick="votar(3)"> 
+    </label>
+</label>
+</label>
+</label>
+    <div id="resultados">Vota para ver los resultados</div>
+
+    <script>
+        function votar(equipo) {
+            fetch("encuesta_voto.php?voto=" + equipo)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("resultados").innerHTML = data;
+                })
+                .catch(error => console.log('Hubo un problema con el fetch: ', error));
+        }
+    </script>
+</body>
+</html>

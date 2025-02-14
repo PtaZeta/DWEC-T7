@@ -1,20 +1,17 @@
 <?php
-$a = ["Gijón", "Gibraltar", "Granada", "Guadalajara", "Girona", 
-      "Gante", "Génova", "Glasgow", "Gdansk", "Graz"];
+$ciudades = ["Gijón", "Gibraltar", "Cádiz", "Córdoba", "Cuenca", "Cáceres", "Galicia", "Cataluña", "Madrid", "Palencia", "Navarra"];
 
-$q = isset($_REQUEST["q"]) ? $_REQUEST["q"] : "";
-
-$hint = "";
+$q = strtolower($_GET["q"]);
+$sugerencias = "";
 
 if ($q !== "") {
-    $q = strtolower($q);
-    $len = strlen($q);
-    foreach ($a as $city) {
-        if (stristr($city, substr($q, 0, $len))) {
-            $hint .= ($hint === "") ? $city : ", $city";
+    foreach ($ciudades as $ciudad) {
+        if (str_starts_with(strtolower($ciudad), $q)) {
+            $sugerencias .= $ciudad . ", ";
         }
     }
 }
 
-echo $hint === "" ? "No hay sugerencias" : $hint;
+$sugerencias = rtrim($sugerencias, ", ");
+echo $sugerencias === "" ? "Sin coincidencias" : $sugerencias;
 ?>
